@@ -1,0 +1,9 @@
+branch-defaults:
+  default:
+    environment: restbook-env
+global:
+  application_name: restbook
+  default_ec2_keyname: bardell
+  default_platform: 64bit Amazon Linux 2014.09 v1.2.0 running Ruby 2.1 (Puma)
+  default_region: eu-west-1
+  profile: eb-cli
