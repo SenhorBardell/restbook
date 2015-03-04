@@ -13,14 +13,18 @@
 
 ActiveRecord::Schema.define(version: 20150226073617) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+  enable_extension "hstore"
+
   create_table "codes", force: :cascade do |t|
     t.string   "code"
     t.string   "token"
-    t.datetime "created_at", default: '2015-03-01 18:11:13'
+    t.datetime "created_at"
     t.integer  "device_id"
   end
 
-  add_index "codes", ["device_id"], name: "index_codes_on_device_id"
+  add_index "codes", ["device_id"], name: "index_codes_on_device_id", using: :btree
 
   create_table "devices", force: :cascade do |t|
     t.string  "token"
@@ -29,19 +33,21 @@ ActiveRecord::Schema.define(version: 20150226073617) do
     t.integer "user_id"
   end
 
-  add_index "devices", ["user_id"], name: "index_devices_on_user_id"
+  add_index "devices", ["user_id"], name: "index_devices_on_user_id", using: :btree
 
   create_table "places", force: :cascade do |t|
     t.string  "logo"
-    t.string  "type"
+    t.string  "place_type"
     t.string  "name"
     t.string  "img"
     t.string  "desc"
     t.string  "city"
     t.string  "street"
+    t.string  "building"
     t.integer "long"
     t.integer "lat"
-    t.boolean "can_book"
+    t.json    "hours"
+    t.hstore  "flags"
   end
 
   create_table "users", force: :cascade do |t|

@@ -61,6 +61,16 @@ Rails.application.routes.draw do
 
     post 'auth' => 'authorization#auth'
 
-    get 'places' => 'places#list'
+    get 'places' => 'places#index'
+
+    get 'places/:id' => 'places#show'
+
+    get 'places/:id/reviews' => 'reviews#show'
+
+    post 'places/:id/reviews' => 'reviews#store'
+
+    get 'orders' => 'orders#index'
+
+    post 'orders' => 'orders#store'
   end
 end

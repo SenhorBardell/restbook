@@ -1,6 +1,8 @@
 branch-defaults:
   default:
     environment: restbook-env
+  master:
+    environment: restbook-env
 global:
   application_name: restbook
   default_ec2_keyname: bardell
