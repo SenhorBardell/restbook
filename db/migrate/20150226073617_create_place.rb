@@ -1,6 +1,5 @@
 class CreatePlace < ActiveRecord::Migration
   def change
-    # enable_extension :hstore
     create_table :places do |t|
       t.string :logo
       t.string :place_type
