@@ -15,7 +15,6 @@ ActiveRecord::Schema.define(version: 20150226073617) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "hstore"
 
   create_table "codes", force: :cascade do |t|
     t.string   "code"
@@ -47,7 +46,7 @@ ActiveRecord::Schema.define(version: 20150226073617) do
     t.integer "long"
     t.integer "lat"
     t.json    "hours"
-    t.hstore  "flags"
+    t.string  "flags",      array: true
   end
 
   create_table "users", force: :cascade do |t|

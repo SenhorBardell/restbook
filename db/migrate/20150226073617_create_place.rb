@@ -1,6 +1,6 @@
 class CreatePlace < ActiveRecord::Migration
   def change
-    enable_extension :hstore
+    # enable_extension :hstore
     create_table :places do |t|
       t.string :logo
       t.string :place_type
@@ -13,7 +13,7 @@ class CreatePlace < ActiveRecord::Migration
       t.integer :long
       t.integer :lat
       t.json :hours
-      t.hstore :flags
+      t.string :flags, array: true
     end
   end
 end
