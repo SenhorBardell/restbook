@@ -1,4 +1,5 @@
 class Place < ActiveRecord::Base
+
   def as_json(options=nil)
     {
         id: self.id,

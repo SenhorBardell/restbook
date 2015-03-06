@@ -1,5 +1,9 @@
 class Api::ReviewsController < ApplicationController
-  protect_from_forgery with: :null_session
+  before_filter :authenticate
+
+  def index
+    render json: {status: @user}
+  end
 
   def show
     render json: {status: 'show'}

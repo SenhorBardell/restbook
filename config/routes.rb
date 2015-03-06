@@ -65,6 +65,8 @@ Rails.application.routes.draw do
 
     get 'places/:id' => 'places#show'
 
+    get 'reviews' => 'reviews#index'
+
     get 'places/:id/reviews' => 'reviews#show'
 
     post 'places/:id/reviews' => 'reviews#store'
