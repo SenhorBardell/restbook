@@ -1,4 +1,5 @@
 class Place < ActiveRecord::Base
+  has_many :reviews
 
   def as_json(options=nil)
     {
@@ -21,4 +22,5 @@ class Place < ActiveRecord::Base
         }
     }
   end
+
 end
