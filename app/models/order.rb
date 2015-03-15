@@ -10,7 +10,8 @@ class Order < ActiveRecord::Base
         place: {
             id: self.place_id,
             name: self.place.name,
-            type: self.place.place_type
+            type: self.place.place_type,
+            logo: self.place.logo
         }
     }
   end

@@ -12,7 +12,8 @@ class Api::ReviewsController < ApplicationController
                place: {
                    id: review.place.id,
                    type: review.place.place_type,
-                   logo: review.place.logo
+                   logo: review.place.logo,
+                   name: review.place.name
                }
            }}
   end
