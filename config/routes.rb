@@ -19,5 +19,7 @@ Rails.application.routes.draw do
     get 'orders' => 'orders#index'
 
     post 'orders' => 'orders#store'
+
+    delete 'orders/:id' => 'orders#destroy'
   end
 end

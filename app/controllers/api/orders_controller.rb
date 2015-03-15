@@ -14,4 +14,9 @@ class Api::OrdersController < ApplicationController
            )
   end
 
+  def destroy
+    @user.orders.find(params[:id]).destroy
+    render nothing: true, status: 204
+  end
+
 end
