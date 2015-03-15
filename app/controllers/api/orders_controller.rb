@@ -2,7 +2,7 @@ class Api::OrdersController < ApplicationController
   before_filter :authenticate
 
   def index
-    render json: @user.orders.includes(:place).offset(@offset).limit(@limit)
+    render json: @user.orders.order(id: :desc).includes(:place).offset(@offset).limit(@limit)
   end
 
   def store

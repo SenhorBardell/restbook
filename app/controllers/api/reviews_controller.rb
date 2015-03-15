@@ -3,7 +3,8 @@ class Api::ReviewsController < ApplicationController
 
   # Reviews feed
   def index
-    render json: Review.all.offset(@offset).limit(@limit).includes(:place).map{ |review| {
+    render json: Review.order(id: :desc).offset(@offset).limit(@limit)
+                     .includes(:place).map{ |review| {
                id: review.id,
                text: review.text,
                vote: review.vote,
@@ -18,7 +19,10 @@ class Api::ReviewsController < ApplicationController
 
   # Reviews by place id
   def show
-    render json: Place.find(params[:id]).reviews.includes(:user).offset(@offset).limit(@limit)
+    render json: Place.find(params[:id])
+                     .reviews.order(id: :desc).includes(:user)
+                     .offset(@offset).limit(@limit)
+                     .order(id: :desc)
   end
 
   def store
