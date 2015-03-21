@@ -2,16 +2,15 @@ class Api::OrdersController < ApplicationController
   before_filter :authenticate
 
   def index
-    render json: @user.orders.order(id: :desc).includes(:place).offset(@offset).limit(@limit)
+    render json: @user.orders
+                     .order(id: :desc).includes(:place)
+                     .offset(@offset).limit(@limit)
+                     .for_client
   end
 
   def store
-    render json: @user.orders.includes(:place).create(
-               place_id: params[:place_id],
-               datetime: params[:datetime],
-               info: params[:info],
-               guests: params[:guests]
-           )
+    render json: @user.orders.includes(:place)
+                     .create(params.permit(:place_id, :datetime, :info, :guests)).for_client
   end
 
   def destroy

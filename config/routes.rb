@@ -22,4 +22,16 @@ Rails.application.routes.draw do
 
     delete 'orders/:id' => 'orders#destroy'
   end
+
+  namespace :admin do
+
+    post 'auth' => 'authorization#attach'
+
+    get 'orders' => 'orders#index'
+
+    get 'orders/:id' => 'orders#index'
+
+    patch 'orders/:id' => 'orders#update'
+
+  end
 end

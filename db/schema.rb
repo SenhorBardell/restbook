@@ -11,10 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150309132910) do
+ActiveRecord::Schema.define(version: 20150321190709) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "admin_devices", force: :cascade do |t|
+    t.string  "udid"
+    t.string  "auth"
+    t.integer "place_id"
+  end
 
   create_table "codes", force: :cascade do |t|
     t.string   "code"
@@ -43,6 +49,7 @@ ActiveRecord::Schema.define(version: 20150309132910) do
     t.string   "status",     default: "pending"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.string   "table"
   end
 
   add_index "orders", ["place_id"], name: "index_orders_on_place_id", using: :btree
@@ -61,6 +68,7 @@ ActiveRecord::Schema.define(version: 20150309132910) do
     t.integer "lat"
     t.json    "hours"
     t.string  "flags",      array: true
+    t.string  "pass"
   end
 
   create_table "reviews", force: :cascade do |t|

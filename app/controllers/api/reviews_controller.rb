@@ -4,18 +4,7 @@ class Api::ReviewsController < ApplicationController
   # Reviews feed
   def index
     render json: Review.order(id: :desc).offset(@offset).limit(@limit)
-                     .includes(:place).map{ |review| {
-               id: review.id,
-               text: review.text,
-               vote: review.vote,
-               created_at: review.created_at,
-               place: {
-                   id: review.place.id,
-                   type: review.place.place_type,
-                   logo: review.place.logo,
-                   name: review.place.name
-               }
-           }}
+                     .includes(:place), each_serializer: ReviewFeedSerializer, root: nil
   end
 
   # Reviews by place id

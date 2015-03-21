@@ -6,15 +6,12 @@ class ApplicationController < ActionController::Base
 
   def authenticate
     authenticate_or_request_with_http_token do |token, options|
-      @device = Device.includes(:user).find_by(auth: token)
-      unless @device.blank?
-        @user = @device.user
-      end
+      @user = Device.find_by(auth: token).user
     end
   end
 
   def paginate
-    @limit = params[:size].blank? ? params[:size] : 20
+    @limit = params[:size].blank? ? 20 : params[:size]
     @offset = params[:last].blank? ? 0 : params[:last].to_i * @limit
   end
 end

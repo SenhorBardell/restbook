@@ -1,6 +1,4 @@
 class Api::AuthorizationController < ApplicationController
-  protect_from_forgery with: :null_session
-
   @time = 2
 
   def auth
@@ -24,7 +22,7 @@ class Api::AuthorizationController < ApplicationController
         @code.destroy
       end
 
-      return render json: {auth: @device.auth, status: 1001}
+      render json: {auth: @device.auth, status: 1001}
     else
       # Find a Phone, Name entry, if not create one
       @user = User.find_or_create_by(phone: params[:phone])
