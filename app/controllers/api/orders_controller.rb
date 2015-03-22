@@ -4,8 +4,8 @@ class Api::OrdersController < ApplicationController
   def index
     render json: @user.orders
                      .order(id: :desc).includes(:place)
-                     .offset(@offset).limit(@limit)
-                     .for_client
+                     .offset(@offset).limit(@limit),
+           each_serializer: ClientOrderSerializer, root: nil
   end
 
   def store

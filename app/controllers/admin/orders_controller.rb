@@ -2,13 +2,18 @@ class Admin::OrdersController < ApplicationController
   before_filter :admin_authenticate
 
   def index
-    if params.has_key?(:id)
-      render json: @place.orders.find(params[:id]).for_admin
-    else
+    if params.has_key?(:status)
       render json: @place.orders.status(params.has_key?(:status) ? params[:status] : 'pending')
+                       .order(id: :desc).includes(:user)
+                       .limit(@limit).offset(@offset), each_serializer: AdminOrderSerializer, root: nil
+    elsif params.has_key?(:id)
+      render json: @place.orders.find(params[:id]), serializer: AdminOrderSerializer, root: nil
+    else
+      render json: @place.orders.status('pending')
                  .order(id: :desc).includes(:user)
-                 .limit(@limit).offset(@offset), each_serializer: AdminOrderSerializer, root: nil
-    end
+                 .limit(@limit).offset(@offset),
+             each_serializer: AdminOrderSerializer, root: nil
+      end
   end
 
   def update
@@ -17,7 +22,7 @@ class Admin::OrdersController < ApplicationController
                      .update(
                          params[:id],
                          params.permit(:status, :table, :datetime)
-                     ).for_admin
+                     ), serializer: AdminOrderSerializer, root: nil
   end
 
   private

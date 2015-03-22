@@ -1,6 +1,6 @@
 class Api::PlacesController < ApplicationController
   def index
-    render json: Place.offset(@offset).limit(@limit)
+    render json: Place.offset(@offset).limit(@limit), root: nil
   end
 
   def show
