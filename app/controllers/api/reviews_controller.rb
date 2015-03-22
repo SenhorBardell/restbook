@@ -4,7 +4,7 @@ class Api::ReviewsController < ApplicationController
   # Reviews feed
   def index
     render json: Review.order(id: :desc).offset(@offset).limit(@limit)
-                     .includes(:place), each_serializer: ReviewFeedSerializer, root: nil
+                     .includes(:place), each_serializer: ReviewFeedSerializer
   end
 
   # Reviews by place id
@@ -12,7 +12,7 @@ class Api::ReviewsController < ApplicationController
     render json: Place.find(params[:id])
                      .reviews.order(id: :desc).includes(:user)
                      .offset(@offset).limit(@limit)
-                     .order(id: :desc), root: nil
+                     .order(id: :desc)
   end
 
   def store
@@ -20,7 +20,7 @@ class Api::ReviewsController < ApplicationController
         user_id: @user.id,
         text: params[:text],
         vote: params[:vote]
-    ), root: nil
+    )
   end
 
 end

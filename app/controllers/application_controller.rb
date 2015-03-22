@@ -14,4 +14,8 @@ class ApplicationController < ActionController::Base
     @limit = params[:size].blank? ? 20 : params[:size]
     @offset = params[:last].blank? ? 0 : params[:last].to_i * @limit
   end
+
+  def default_serializer_options
+    {root: false}
+  end
 end

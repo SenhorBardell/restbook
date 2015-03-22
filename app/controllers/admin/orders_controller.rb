@@ -12,7 +12,7 @@ class Admin::OrdersController < ApplicationController
       render json: @place.orders.status('pending')
                  .order(id: :desc).includes(:user)
                  .limit(@limit).offset(@offset),
-             each_serializer: AdminOrderSerializer, root: nil
+             each_serializer: AdminOrderSerializer
       end
   end
 
@@ -22,7 +22,7 @@ class Admin::OrdersController < ApplicationController
                      .update(
                          params[:id],
                          params.permit(:status, :table, :datetime)
-                     ), serializer: AdminOrderSerializer, root: nil
+                     ), serializer: AdminOrderSerializer
   end
 
   private
