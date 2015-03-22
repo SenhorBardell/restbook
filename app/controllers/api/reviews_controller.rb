@@ -12,7 +12,7 @@ class Api::ReviewsController < ApplicationController
     render json: Place.find(params[:id])
                      .reviews.order(id: :desc).includes(:user)
                      .offset(@offset).limit(@limit)
-                     .order(id: :desc)
+                     .order(id: :desc), root: nil
   end
 
   def store
