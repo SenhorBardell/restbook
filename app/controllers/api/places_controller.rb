@@ -4,6 +4,6 @@ class Api::PlacesController < ApplicationController
   end
 
   def show
-    render json: Place.find(params[:id])
+    render json: Place.find(params[:id]), root: nil
   end
 end

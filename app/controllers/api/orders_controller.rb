@@ -10,7 +10,7 @@ class Api::OrdersController < ApplicationController
 
   def store
     render json: @user.orders.includes(:place)
-                     .create(params.permit(:place_id, :datetime, :info, :guests)).for_client
+                     .create(params.permit(:place_id, :datetime, :info, :guests)), serializer: ClientOrderSerializer, root: nil
   end
 
   def destroy
