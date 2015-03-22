@@ -20,7 +20,7 @@ class Api::ReviewsController < ApplicationController
         user_id: @user.id,
         text: params[:text],
         vote: params[:vote]
-    )
+    ), root: nil
   end
 
 end
