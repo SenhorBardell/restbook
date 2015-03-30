@@ -41,6 +41,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    ansi (1.5.0)
     arel (6.0.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
@@ -92,6 +93,7 @@ GEM
     minitest (5.5.1)
     multi_json (1.10.1)
     multi_xml (0.5.5)
+    net-http-persistent (2.9.4)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     pg (0.18.1)
@@ -125,6 +127,13 @@ GEM
     rake (10.4.2)
     rdoc (4.2.0)
       json (~> 1.4)
+    rpush (2.4.0)
+      activesupport
+      ansi
+      multi_json (~> 1.0)
+      net-http-persistent
+      railties
+      thor (>= 0.18.1, < 2.0)
     rubysl-securerandom (2.0.0)
     sass (3.4.13)
     sass-rails (5.0.1)
@@ -178,6 +187,7 @@ DEPENDENCIES
   mainsms_api
   pg
   rails (= 4.2.0)
+  rpush
   rubysl-securerandom (~> 2.0.0)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)

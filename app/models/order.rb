@@ -1,64 +1,22 @@
 class Order < ActiveRecord::Base
+  include Pushable
+
   belongs_to :place
   belongs_to :user
 
   scope :status, ->(status) {where(status: status)}
 
-  def self.for_client
-    all.map{|order| {
-        id: order.id,
-        datetime: order.datetime,
-        info: order.info,
-        guests: order.guests,
-        status: order.status,
-        place: {
-            id: order.place_id,
-            name: order.place.name,
-            type: order.place.place_type,
-            logo: order.place.logo
-        }
-    }}
+  #TODO default scope with order
+
+  after_save :add_to_push_queue
+  after_update :add_to_push_queue
+
+  def add_to_push_queue
+    push(Device.where("user_id = #{self.user_id}").map(&:token), "android_app")
+    # push(self.place.admin_devices.map{&:token}, "android_app")
   end
 
-  def for_client
-    {
-        id: self.id,
-        datetime: self.datetime,
-        info: self.info,
-        guests: self.guests,
-        status: self.status,
-        place: {
-            id: self.place.id,
-            name: self.place.name,
-            type: self.place.place_type,
-            logo: self.place.logo
-        }
-    }
-  end
-  #
-  # def self.for_admin
-  #   all.map{|order| {
-  #       id: order.id,
-  #       datetime: order.datetime,
-  #       info: order.info,
-  #       guests: order.guests,
-  #       status: order.status,
-  #       user: {
-  #           id: order.user.id,
-  #           name: order.user.name,
-  #           phone: order.user.phone
-  #       }
-  #   }}
-  # end
-  #
-  # def for_admin
-  #   self.as_json(include: :user, except: [
-  #                                  :place_id,
-  #                                  :user_id,
-  #                                  :created_at,
-  #                                  :updated_at
-  #                              ])
-  # end
+  # Serialization methods
 
   def table
     read_attribute(:table).to_i
