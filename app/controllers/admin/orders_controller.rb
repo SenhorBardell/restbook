@@ -9,8 +9,8 @@ class Admin::OrdersController < ApplicationController
         return render json: @place.orders.status_not('pending').includes(:user)
                           .limit(@limit).offset(@offset), each_serializer: AdminOrderSerializer
       end
-      pp "Status pending"
-      render json: @place.orders.status('pending')
+      pp "Status #{params[:status]}"
+      render json: @place.orders.status(params[:status])
                        .includes(:user)
                        .limit(@limit).offset(@offset), each_serializer: AdminOrderSerializer
     elsif params.has_key?(:id)
