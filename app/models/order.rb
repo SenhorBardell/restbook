@@ -4,7 +4,10 @@ class Order < ActiveRecord::Base
   belongs_to :place
   belongs_to :user
 
+  default_scope {order(id: :desc)}
   scope :status, ->(status) {where(status: status)}
+  scope :status_not, ->(status) {where.not(status: status)}
+  scope :pag, ->(offset, limit) {offset(offset).limit(limit)}
 
   #TODO default scope with order
 

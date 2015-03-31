@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   end
 
   def paginate
-    @limit = params[:size].blank? ? 20 : params[:size]
+    @limit = params[:size].blank? ? 20 : params[:size].to_i
     @offset = params[:last].blank? ? 0 : params[:last].to_i * @limit
   end
 

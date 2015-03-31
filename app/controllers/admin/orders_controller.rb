@@ -3,14 +3,23 @@ class Admin::OrdersController < ApplicationController
 
   def index
     if params.has_key?(:status)
-      render json: @place.orders.status(params.has_key?(:status) ? params[:status] : 'pending')
-                       .order(id: :desc).includes(:user)
-                       .limit(@limit).offset(@offset), each_serializer: AdminOrderSerializer, root: nil
-    elsif params.has_key?(:id)
-      render json: @place.orders.find(params[:id]), serializer: AdminOrderSerializer, root: nil
-    else
+      # TODO consider using closure function to pass status
+      if params[:status] == 'archived'
+        pp "Status archived"
+        return render json: @place.orders.status_not('pending').includes(:user)
+                          .limit(@limit).offset(@offset), each_serializer: AdminOrderSerializer
+      end
+      pp "Status pending"
       render json: @place.orders.status('pending')
-                 .order(id: :desc).includes(:user)
+                       .includes(:user)
+                       .limit(@limit).offset(@offset), each_serializer: AdminOrderSerializer
+    elsif params.has_key?(:id)
+      pp "No status"
+      render json: @place.orders.find(params[:id]), serializer: AdminOrderSerializer
+    else
+      pp "Default status"
+      render json: @place.orders.status('pending')
+                 .includes(:user)
                  .limit(@limit).offset(@offset),
              each_serializer: AdminOrderSerializer
       end

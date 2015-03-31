@@ -25,17 +25,14 @@ class Api::AuthorizationController < ApplicationController
       render json: {auth: @device.auth, status: 1001}
     else
       # Find a Phone, Name entry, if not create one
-      @user = User.find_or_create_by(phone: params[:phone])
+      @user = User.create_with(name: params[:name]).find_or_create_by(phone: params[:phone])
 
       # Find device token associated with this phone
       @device = @user.devices.find_or_create_by(token: params[:token])
 
-      # @code = @device.codes.where("created_at BETWEEN #{@start_date} AND #{@end_date}").first
       @code = @device.codes.where(created_at: Time.now.ago(120)..Time.now).first
-      # @code = @device.codes.where("created_at < (CURRENT_TIMESTAMP - INTERVAL '120 seconds')").first
 
       # If not found create sms code temp entry
-      puts "Blank #{@code.blank?}"
       if @code.blank?
         @code = @device.codes.create(token: params[:token], code: 1234, created_at: Time.now)
         # @message = MainsmsApi::Message.new(sender: '79211040339', message: "Код подтверждения #{@smscode}", recipients: [@user.phone])

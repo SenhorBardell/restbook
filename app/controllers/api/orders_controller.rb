@@ -2,19 +2,35 @@ class Api::OrdersController < ApplicationController
   before_filter :authenticate
 
   def index
-    render json: @user.orders
-                     .order(id: :desc).includes(:place)
-                     .offset(@offset).limit(@limit),
-           each_serializer: ClientOrderSerializer
+    if params.has_key?(:status)
+      if params[:status] == 'archived'
+        render json: @user.orders.status_not('pending')
+                         .includes(:place)
+                         .pag(@offset, @limit),
+               each_serializer: ClientOrderSerializer
+      else
+        render json: @user.orders.status(params[:status])
+                         .includes(:place)
+                          .pag(@offset, @limit),
+               each_serializer: ClientOrderSerializer
+      end
+    else
+      render json: @user.orders
+                       .includes(:place)
+                       .pag(@offset, @limit),
+             each_serializer: ClientOrderSerializer
+    end
   end
 
   def store
     render json: @user.orders.includes(:place)
-                     .create(params.permit(:place_id, :datetime, :info, :guests)), serializer: ClientOrderSerializer
+                     .create(params.permit(:place_id, :datetime, :info, :guests)),
+           serializer: ClientOrderSerializer
   end
 
   def destroy
-    @user.orders.find(params[:id]).destroy
+    order = @user.orders.find(params[:id])
+    order.update(status: 'deleted')
     render nothing: true, status: 204
   end
 
