@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150328200157) do
+ActiveRecord::Schema.define(version: 20150331183443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20150328200157) do
     t.string  "udid"
     t.string  "auth"
     t.integer "place_id"
+    t.string  "token"
   end
 
   create_table "codes", force: :cascade do |t|

@@ -1,13 +1,13 @@
 class Admin::AuthorizationController < ApplicationController
 
   def attach
-    return render json: {status: 401, info: 'Wrong Args'} unless params[:pass] && params[:id] && params[:udid]
+    return render json: {status: 401, info: 'Wrong Args'} unless params[:pass] && params[:id] && params[:udid] && params[:token]
 
     @place = Place.find(params[:id])
 
     return render json: {status: 401, info: 'Wrong pass'} unless params[:pass] == @place.pass
 
-    render json: @place.admin_devices.find_or_create_by(udid: params[:udid], auth: '123')
+    render json: @place.admin_devices.find_or_create_by(udid: params[:udid], auth: '123', token: params[:token])
  end
 
 end
