@@ -16,7 +16,7 @@ class Order < ActiveRecord::Base
 
   def add_to_push_queue
     push(Device.where("user_id = #{self.user_id}").map(&:token), "android_app")
-    # push(self.place.admin_devices.map{&:token}, "android_app")
+    push(self.place.admin_devices.map(&:token), "android_app")
   end
 
   # Serialization methods
