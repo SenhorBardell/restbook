@@ -33,5 +33,9 @@ Rails.application.routes.draw do
 
     patch 'orders/:id' => 'orders#update'
 
+    get 'reviews' => 'reviews#index'
+
+    # get 'avaiable-space' =>
+
   end
 end
