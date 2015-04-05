@@ -10,6 +10,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def admin_authenticate
+    authenticate_or_request_with_http_token do |token, options|
+      @place = AdminDevice.find_by(auth: token).place
+    end
+  end
+
   def paginate
     @limit = params[:size].blank? ? 20 : params[:size].to_i
     @offset = params[:last].blank? ? 0 : params[:last].to_i * @limit

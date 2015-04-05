@@ -35,7 +35,7 @@ Rails.application.routes.draw do
 
     get 'reviews' => 'reviews#index'
 
-    # get 'avaiable-space' =>
+    get 'areas' => 'areas#avaiable'
 
   end
 end

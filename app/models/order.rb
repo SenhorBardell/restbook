@@ -3,11 +3,14 @@ class Order < ActiveRecord::Base
 
   belongs_to :place
   belongs_to :user
+  belongs_to :area
 
   default_scope {order(id: :desc)}
   scope :status, ->(status) {where(status: status)}
   scope :status_not, ->(status) {where.not(status: status)}
   scope :pag, ->(offset, limit) {offset(offset).limit(limit)}
+  scope :today, -> {where(datetime: Time.now.beginning_of_day..Time.now.end_of_day)}
+  scope :day, ->(day) {where("extract(day from datetime) = #{day.strftime('%d')}")}
 
   #TODO default scope with order
 
