@@ -26,7 +26,7 @@ class Admin::OrdersController < ApplicationController
                      .orders
                      .update(
                          params[:id],
-                         params.permit(:status, :table, :datetime)
+                         params.permit(:status, :datetime, :area_id)
                      ), serializer: AdminOrderSerializer
   end
 

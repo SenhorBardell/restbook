@@ -1,5 +1,5 @@
 class ClientOrderSerializer < ActiveModel::Serializer
-  attributes :id, :datetime, :info, :guests, :table, :status
+  attributes :id, :datetime, :info, :guests, :area_id, :status
 
   has_one :place
 
