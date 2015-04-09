@@ -4,14 +4,16 @@ class Api::OrdersController < ApplicationController
   def index
     if params.has_key?(:status)
       if params[:status] == 'archived'
-        render json: @user.orders.status_not('pending')
-                         .includes(:place)
-                         .pag(@offset, @limit),
+        render json: @user.orders.where('datetime > ? OR status = ?', 15.minutes.from_now, :declined)
+                         .includes(:place).pag(@offset, @limit),
                each_serializer: ClientOrderSerializer
+      elsif params[:status] == 'current'
+        render json: @user.orders.where('datetime >= ? AND status != ?', Time.now, :declined)
+                   .includes(:place).pag(@offset, @limit),
+               each_serizlier: ClientOrderSerializer
       else
         render json: @user.orders.status(params[:status])
-                         .includes(:place)
-                          .pag(@offset, @limit),
+                         .includes(:place).pag(@offset, @limit),
                each_serializer: ClientOrderSerializer
       end
     else
