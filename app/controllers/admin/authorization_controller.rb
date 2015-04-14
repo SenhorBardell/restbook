@@ -2,13 +2,17 @@ class Admin::AuthorizationController < ApplicationController
 
   def attach
     return render json: {status: 401, info: 'Wrong Args'},
-                  status: 401 unless params[:pass] && params[:id] && params[:udid] && params[:token]
+                  status: 401 unless params[:pass] && params[:login] && params[:udid] && params[:token]
 
-    @place = Place.find(params[:id])
+    @place = Place.find_by(login: params[:login])
 
     return render json: {status: 401, info: 'Wrong pass'}, status: 401 unless params[:pass] == @place.pass
 
-    @admin = @place.admin_devices.find_or_create_by(udid: params[:udid], auth: '123', token: params[:token])
+    @admin = @place.admin_devices.find_or_create_by(
+        udid: params[:udid],
+        auth: SecureRandom.base64(32),
+        token: params[:token]
+    )
 
     render json: {
                udid: @admin.udid,
@@ -21,11 +25,11 @@ class Admin::AuthorizationController < ApplicationController
            }
   end
 
-  rescue_from ActiveRecord::RecordNotFound, with: :e404
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
   private
 
-  def e404
+  def not_found
     render json: {status: 404, info: 'Not found'}, status: 404
   end
 

@@ -16,7 +16,7 @@ class Api::AuthorizationController < ApplicationController
       @device = @code.device
       # TODO Check if can do it in closure
       if @device.token == params[:token]
-        @device.auth = SecureRandom.base64(16)
+        @device.auth = SecureRandom.base64(32)
         @device.verified = true
         @device.save
         @code.destroy
