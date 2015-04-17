@@ -9,8 +9,8 @@ class CreatePlace < ActiveRecord::Migration
       t.string :city
       t.string :street
       t.string :building
-      t.integer :long
-      t.integer :lat
+      t.string :long
+      t.string :lat
       t.json :hours
       t.string :flags, array: true
     end
