@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   root 'main#root'
 
+  namespace :manager do
+    resources :places
+  end
+
   namespace :api do
     get '/' => 'main#root'
 
@@ -29,7 +33,7 @@ Rails.application.routes.draw do
 
     get 'orders' => 'orders#index'
 
-    get 'orders/:id' => 'orders#index'
+    # get 'orders/:id' => 'orders#index'
 
     patch 'orders/:id' => 'orders#update'
 

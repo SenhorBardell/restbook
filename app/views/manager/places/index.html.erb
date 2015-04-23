@@ -1,0 +1,34 @@
+<h1>Places</h1>
+
+<p>
+    <%= link_to 'New', new_manager_place_path %>
+</p>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Type</th>
+        <th>Name</th>
+        <th>City</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    <% @places.each do |place| %>
+        <tr>
+            <td><%= place.id %></td>
+            <td><%= place.place_type %></td>
+            <td><%= place.name %></td>
+            <td><%= place.city %></td>
+            <td><%= link_to 'Show', manager_place_path(place) %></td>
+            <td><%= link_to 'Edit', edit_manager_place_path(place) %></td>
+            <td>
+                <%= link_to 'Delete',
+                            manager_place_path(place),
+                            data: { confirm: 'Are you sure?'},
+                            method: :delete
+                %>
+            </td>
+        </tr>
+    <% end %>
+</table>

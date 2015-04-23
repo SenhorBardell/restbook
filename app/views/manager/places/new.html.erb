@@ -1,0 +1,71 @@
+<h1>New Place</h1>
+
+<%= form_for [:manager, @place] do |f| %>
+
+    <h2>Basic</h2>
+
+    <p>
+        <%= f.label :name, 'Name' %>:
+        <%= f.text_field :name %>
+
+        <%= f.label :place_type, 'Type' %>:
+        <%= f.text_field :place_type, value: 'Ресторан' %>
+    </p>
+
+    <p>
+        <%= f.label :desc, 'Description' %>:
+        <%= f.text_area :desc %>
+    </p>
+
+    <h2>Location</h2>
+
+    <p>
+        <%= f.label :city, 'City' %>:
+        <%= f.text_field :city, value: 'Калининград' %>
+
+        <%= f.label :street, 'Street' %>:
+        <%= f.text_field :street %>
+
+        <%= f.label :building, 'Building' %>
+        <%= f.text_field :building %>
+    </p>
+
+    <h2>Images</h2>
+
+    <p>
+        <%= f.label :logo, 'Logo' %>:
+        <%= f.file_field :logo %>
+
+        <%= f.label :img, 'Img' %>:
+        <%= f.file_field :img %>
+    </p>
+
+    <h2>Meta</h2>
+
+    <p>
+        <%= f.label :flags, 'Flags' %>
+        <%= f.text_field :flags, multiple: true, value: 'smoke_room' %>
+        <%= f.text_field :flags, multiple: true, value: 'can_book' %>
+        <%= f.text_field :flags, multiple: true, value: 'has_parking' %>
+    </p>
+
+    <p>
+        <%= f.label :hours, 'Hours' %>
+        <%= f.text_field :hours, value: '{"mon":["12:00","21:00"],"tue":["12:00","21:00"],"wed":["12:00","21:00"],"thu":["12:00","21:00"],"fri":["12:00","21:00"],"sat":["12:00","21:00"],"sun":["12:00","21:00"]}', style: 'width:900px' %>
+    </p>
+
+    <h2>Geo</h2>
+
+    <p>
+        <%= f.label :long, 'Long' %>:
+        <%= f.text_field :long %>
+
+        <%= f.label :lat, 'Lat' %>:
+        <%= f.text_field :lat %>
+    </p>
+
+    <p>
+        <%= f.submit 'Create' %>
+        <%= link_to 'Back', manager_places_path %>
+    </p>
+<% end %>
