@@ -5,9 +5,8 @@ class Admin::OrdersController < ApplicationController
     if params.has_key?(:status)
       # TODO consider using closure function to pass status
       if params[:status] == 'archived'
-        # .where('datetime > ? AND status IN ', 30.minutes.from_now, [:pending, :accepted]).includes(:user)
         return render json: @place.orders
-                                .where('datetime > ?', 30.minutes.from_now).includes(:user)
+                                .where('datetime > ? AND status IN (?)', 30.minutes.from_now, [:pending, :accepted]).includes(:user)
                           .limit(@limit).offset(@offset), each_serializer: AdminOrderSerializer
       end
       render json: @place.orders.status(params[:status])
