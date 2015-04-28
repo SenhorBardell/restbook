@@ -10,7 +10,7 @@ class Api::OrdersController < ApplicationController
       elsif params[:status] == 'current'
         render json: @user.orders.where('datetime > ? AND status in (?)', 30.minutes.from_now, [:pending, :accepted])
                    .includes(:place).pag(@offset, @limit),
-               each_serizlier: ClientOrderSerializer
+               each_serializer: ClientOrderSerializer
       else
         render json: @user.orders.status(params[:status])
                          .includes(:place).pag(@offset, @limit),
