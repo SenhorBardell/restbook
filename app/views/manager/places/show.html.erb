@@ -1,2 +1,38 @@
-<h1>Show place</h1>
-<%= @id %>
+<h1>Place <%= @place.name %></h1>
+<% prefix = 'https://s3-eu-west-1.amazonaws.com/elasticbeanstalk-eu-west-1-719074273155/img/' %>
+<dl>
+    <dt>Тип</dt>
+    <dd><%= @place.place_type %></dd>
+
+    <dt>Имя</dt>
+    <dd><%= @place.name %></dd>
+
+    <dt>Описание</dt>
+    <dd><%= @place.desc %></dd>
+
+    <dt>Адресс</dt>
+    <dd><%= "#{@place.city} #{@place.street} #{@place.building}" %></dd>
+
+    <dt>Гео</dt>
+    <dd><%= "#{@place.long} #{@place.lat}" %></dd>
+
+    <dt>Время работы</dt>
+    <% @place.hours.each do |hour| %>
+        <dd><%= "#{hour[0]}: #{hour[1][0]}, #{hour[1][1]}" %></dd>
+    <% end %>
+
+    <dt>Флаги</dt>
+    <% @place.flags.map do |flag| %>
+        <dd><%= flag %></dd>
+    <% end %>
+
+    <dt>Логин</dt>
+    <dd><%= @place.login %></dd>
+
+    <dt>Лого</dt>
+    <dd><%= image_tag(prefix + @place.logo) %></dd>
+
+    <dt>Изображение</dt>
+    <dd><%= image_tag(prefix + @place.img) %></dd>
+
+</dl>

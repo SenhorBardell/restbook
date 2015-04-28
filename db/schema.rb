@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150414184553) do
+ActiveRecord::Schema.define(version: 20150428130453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,27 +63,27 @@ ActiveRecord::Schema.define(version: 20150414184553) do
   add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
 
   create_table "places", force: :cascade do |t|
-    t.string  "logo"
-    t.string  "place_type"
-    t.string  "name"
-    t.string  "img"
-    t.string  "desc"
-    t.string  "city"
-    t.string  "street"
-    t.string  "building"
-    t.integer "long"
-    t.integer "lat"
-    t.json    "hours"
-    t.string  "flags",      array: true
-    t.string  "pass"
-    t.string  "login"
+    t.string "logo"
+    t.string "place_type"
+    t.string "name"
+    t.string "img"
+    t.string "desc"
+    t.string "city"
+    t.string "street"
+    t.string "building"
+    t.string "long",       limit: 20
+    t.string "lat",        limit: 20
+    t.json   "hours"
+    t.string "flags",                 array: true
+    t.string "pass"
+    t.string "login"
   end
 
   create_table "reviews", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "place_id"
     t.text     "text"
-    t.integer  "vote",       limit: 2
+    t.integer  "vote",       limit: 2, default: 2, null: false
     t.datetime "created_at"
   end
 
