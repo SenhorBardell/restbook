@@ -6,20 +6,26 @@ class Admin::OrdersController < ApplicationController
       # TODO consider using closure function to pass status
       if params[:status] == 'archived'
         return render json: @place.orders
-                                .where('datetime > ? AND status IN (?)', 30.minutes.from_now, [:pending, :accepted]).includes(:user)
-                          .limit(@limit).offset(@offset), each_serializer: AdminOrderSerializer
+                                .where('status not in (?)', [:pending, :accepted]) # datetime maybe?
+                                .includes(:user)
+                                .limit(@limit).offset(@offset), each_serializer: AdminOrderSerializer
+      elsif params[:status] == 'current'
+        return render json: @place.orders
+                                .where('datetime > ? AND status IN (?)', 30.minutes.from_now, [:pending, :accepted])
+                                .includes(:user).limit(@limit).offset(@offset), each_serializer: AdminOrderSerializer
       end
-      render json: @place.orders.status(params[:status])
-                       .includes(:user)
-                       .limit(@limit).offset(@offset), each_serializer: AdminOrderSerializer
+        render json: @place.orders.status(params[:status])
+                         .includes(:user)
+                         .limit(@limit).offset(@offset), each_serializer: AdminOrderSerializer
+
     elsif params.has_key?(:id)
       render json: @place.orders.find(params[:id]), serializer: AdminOrderSerializer
     else
       render json: @place.orders.status('pending')
-                 .includes(:user)
-                 .limit(@limit).offset(@offset),
+                       .includes(:user)
+                       .limit(@limit).offset(@offset),
              each_serializer: AdminOrderSerializer
-      end
+    end
   end
 
   def update
