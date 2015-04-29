@@ -4,11 +4,11 @@ class Api::OrdersController < ApplicationController
   def index
     if params.has_key?(:status)
       if params[:status] == 'archived'
-        render json: @user.orders.where('datetime < ? OR status not in (?)', 30.minutes.from_now, [:pending, :accepted])
+        render json: @user.orders.where('datetime < ? OR status not in (?)', 30.minutes.from_now.to_s(:db), [:pending, :accepted])
                          .includes(:place).pag(@offset, @limit),
                each_serializer: ClientOrderSerializer
       elsif params[:status] == 'current'
-        render json: @user.orders.where('datetime > ? AND status in (?)', 30.minutes.from_now, [:pending, :accepted])
+        render json: @user.orders.where('datetime > ? AND status in (?)', 30.minutes.from_now.to_s(:db), [:pending, :accepted])
                    .includes(:place).pag(@offset, @limit),
                each_serializer: ClientOrderSerializer
       else
@@ -25,6 +25,7 @@ class Api::OrdersController < ApplicationController
   end
 
   def store
+    pp params[:datetime]
     render json: @user.orders.includes(:place)
                      .create(params.permit(:place_id, :datetime, :info, :guests)),
            serializer: ClientOrderSerializer
