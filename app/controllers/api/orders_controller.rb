@@ -25,7 +25,6 @@ class Api::OrdersController < ApplicationController
   end
 
   def store
-    pp params[:datetime]
     render json: @user.orders.includes(:place)
                      .create(params.permit(:place_id, :datetime, :info, :guests)),
            serializer: ClientOrderSerializer
