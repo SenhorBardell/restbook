@@ -13,37 +13,41 @@ class Manager::PlacesController < ApplicationController
   def create
     s3 = Aws::S3::Client.new
 
-    image_key = SecureRandom.uuid
-    image = s3.put_object(
-      body: params[:place][:img],
-      key: 'img/' + image_key  + ext(params[:place][:img]),
-      bucket: ENV['S3_BUCKET']
-    )
+    @place = Place.new(place_params)
 
-    logo_key = SecureRandom.uuid
-    logo = s3.put_object(
-      body: params[:place][:logo],
-      key: 'img/' + logo_key + ext(params[:place][:logo]),
-      bucket: ENV['S3_BUCKET']
-    )
+    if params.has_key?(:img)
 
-    @place = Place.new(params.require(:place).permit(
-                           :name, :place_type, :desc, :city, :street,
-                           :building, :long, :lat, :hours, :flags))
+      image_key = SecureRandom.uuid
+      image = s3.put_object(
+        body: params[:place][:img],
+        key: 'img/' + image_key  + ext(params[:place][:img]),
+        bucket: ENV['S3_BUCKET']
+      )
 
-    @place.img = image_key + ext(params[:place][:img])
-    @place.logo = logo_key + ext(params[:place][:logo])
-    @place.save
-    redirect_to manager_place_url(@place)
-  end
+      @place.img = image_key + ext(params[:place][:img])
+    end
 
-  def ext(file)
-    File.extname(file.original_filename) if file
+    if params.has_key?(:logo)
+
+      logo_key = SecureRandom.uuid
+      logo = s3.put_object(
+        body: params[:place][:logo],
+        key: 'img/' + logo_key + ext(params[:place][:logo]),
+        bucket: ENV['S3_BUCKET']
+      )
+      @place.logo = logo_key + ext(params[:place][:logo])
+
+    end
+
+    if @place.save
+      redirect_to manager_place_url(@place)
+    else
+      render 'new'
+    end
   end
 
   # HTML Form
   def show
-    # AMAZON_URL = 'https://s3-eu-west-1.amazonaws.com/elasticbeanstalk-eu-west-1-719074273155/img/'
     @place = Place.find(params[:id])
   end
 
@@ -53,7 +57,13 @@ class Manager::PlacesController < ApplicationController
   end
 
   def update
+    @place = Place.find(params[:id])
 
+    if @place.update(place_params)
+      redirect_to manager_place_url(@place)
+    else
+      render 'edit'
+    end
   end
 
   def destroy
@@ -61,5 +71,18 @@ class Manager::PlacesController < ApplicationController
     @place.destroy
 
     redirect_to manager_places_path
+  end
+
+  private
+
+  def place_params
+    params.require(:place).permit(
+        :name, :place_type, :desc, :city, :street,
+        :building, :long, :lat, :hours, :flags
+    )
+  end
+
+  def ext(file)
+    File.extname(file.original_filename) if file
   end
 end

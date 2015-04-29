@@ -1,5 +1,12 @@
-<h1>Place <%= @place.name %></h1>
 <% prefix = 'https://s3-eu-west-1.amazonaws.com/elasticbeanstalk-eu-west-1-719074273155/img/' %>
+
+<h1>Place <%= @place.name %></h1>
+
+<%= link_to 'Главная', manager_places_path %> |
+<%= link_to 'Изменить', edit_manager_place_path %> |
+<%= link_to 'Столики' %> |
+<%= link_to 'Отзывы' %>
+
 <dl>
     <dt>Тип</dt>
     <dd><%= @place.place_type %></dd>
@@ -10,7 +17,7 @@
     <dt>Описание</dt>
     <dd><%= @place.desc %></dd>
 
-    <dt>Адресс</dt>
+    <dt>Адрес</dt>
     <dd><%= "#{@place.city} #{@place.street} #{@place.building}" %></dd>
 
     <dt>Гео</dt>
@@ -24,15 +31,15 @@
     <dt>Флаги</dt>
     <% @place.flags.map do |flag| %>
         <dd><%= flag %></dd>
-    <% end %>
+    <% end unless @place.flags.blank? %>
 
     <dt>Логин</dt>
     <dd><%= @place.login %></dd>
 
     <dt>Лого</dt>
-    <dd><%= image_tag(prefix + @place.logo) %></dd>
+    <dd><%= image_tag(prefix + @place.logo) unless @place.logo.blank? %></dd>
 
     <dt>Изображение</dt>
-    <dd><%= image_tag(prefix + @place.img) %></dd>
+    <dd><%= image_tag(prefix + @place.img) unless @place.img.blank? %></dd>
 
 </dl>

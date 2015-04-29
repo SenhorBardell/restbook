@@ -2,7 +2,10 @@ Rails.application.routes.draw do
   root 'main#root'
 
   namespace :manager do
-    resources :places
+    resources :places do
+      resources :reviews
+      resources :areas
+    end
   end
 
   namespace :api do

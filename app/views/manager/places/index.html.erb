@@ -13,6 +13,8 @@
         <th></th>
         <th></th>
         <th></th>
+        <th></th>
+        <th></th>
     </tr>
     <% @places.each do |place| %>
         <tr>
@@ -29,6 +31,8 @@
                             method: :delete
                 %>
             </td>
+            <td><%= link_to 'Столики', manager_place_areas_path(place) %></td>
+            <td><%= link_to 'Отзывы', manager_place_reviews_path(place) %></td>
         </tr>
     <% end %>
 </table>
