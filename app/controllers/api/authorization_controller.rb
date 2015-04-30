@@ -34,9 +34,10 @@ class Api::AuthorizationController < ApplicationController
 
       # If not found create sms code temp entry
       if @code.blank?
-        @code = @device.codes.create(token: params[:token], code: 1234, created_at: Time.now)
-        # @message = MainsmsApi::Message.new(sender: '79211040339', message: "Код подтверждения #{@smscode}", recipients: [@user.phone])
-        # response = @message.deliver
+        code = SecureRandom.hex 3
+        if send_sms params[:phone], code
+          @code = @device.codes.create(token: params[:token], code: code, created_at: Time.now)
+        end
         # Send the code
         return render json: {status: 1002, timeout: 120}
       else
@@ -46,19 +47,21 @@ class Api::AuthorizationController < ApplicationController
         if @code.created_at + 120.seconds > Time.now
           return render json: {status: 1002, timeout: @code.created_at + 120.seconds - Time.now}
         else
-          @code = @device.codes.create(token: params[:token], code: 1234, created_at: Time.now)
+          code = SecureRandom.hex 3
+          if send_sms params[:phone], code
+            @code = @device.codes.create(token: params[:token], code: code, created_at: Time.now)
+          end
         end
 
         # if timeout passed send an sms again
         return render json: {status: 1002, timeout: 120 }
       end
-      # Send sms code, via mainsms_api
-
     end
   end
 
   private
   def send_sms(phone, code)
-    puts 'Sending sms'
+    @message = MainsmsApi::Message.new(sender: '7' + phone.to_s, message: "Код подтверждения #{code}", recipients: [@user.phone])
+    @message.deliver
   end
 end

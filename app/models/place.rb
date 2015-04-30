@@ -5,4 +5,6 @@ class Place < ActiveRecord::Base
   has_many :areas
 
   scope :pag, ->(offset, limit) {offset(offset).limit(limit)}
+
+  validates :name, presence: true
 end
