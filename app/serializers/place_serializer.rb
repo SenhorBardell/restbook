@@ -8,9 +8,13 @@ class PlaceSerializer < ActiveModel::Serializer
     object.place_type
   end
 
+  def city
+    object.city
+  end
+
   def address
     {
-        city: object.city,
+        city: city.name,
         street: object.street,
         building: object.building
     }

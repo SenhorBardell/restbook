@@ -1,0 +1,11 @@
+<h1>Города</h1>
+
+<p>
+    <%= link_to 'New', new_manager_city_path %>
+</p>
+
+<ul>
+    <% @cities.each do |city| %>
+        <li><%= city.id %>, <%= city.name %>, edit, delete</li>
+    <% end %>
+</ul>

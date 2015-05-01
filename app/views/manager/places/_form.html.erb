@@ -33,7 +33,7 @@
 
     <p>
         <%= f.label :city, 'City: ' %>
-        <%= f.text_field :city, value: 'Калининград' %>
+        <%= f.select :city_id, City.all.collect {|city| [city.name, city.id]} %>
 
         <%= f.label :street, 'Street: ' %>
         <%= f.text_field :street %>
@@ -54,12 +54,30 @@
 
     <h2>Meta</h2>
 
-    <p>
-        <%= f.label :flags, 'Flags' %>
-        <%= f.text_field :flags, multiple: true, value: 'smoke_room' %>
-        <%= f.text_field :flags, multiple: true, value: 'can_book' %>
-        <%= f.text_field :flags, multiple: true, value: 'has_parking' %>
-    </p>
+    <div>
+        <%= f.label :flags, 'Flags' %> <a href="#" id="add-flag">+</a>
+
+        <ul>
+            <% if @place.flags %>
+                <% @place.flags.each do |flag| %>
+                    <li><%= f.text_field :flags, multiple: true, value: flag %><a href="#" class="delete-flag">x</a></li>
+                <% end %>
+            <% else %>
+                <li>
+                    <%= f.text_field :flags, multiple: true, value: 'smoke_room' %>
+                    <a href="#" class="delete-flag">x</a>
+                </li>
+                <li>
+                    <%= f.text_field :flags, multiple: true, value: 'can_book' %>
+                    <a href="#" class="delete-flag">x</a>
+                </li>
+                <li>
+                    <%= f.text_field :flags, multiple: true, value: 'has_parking' %>
+                    <a href="#" class="delete-flag">x</a>
+                </li>
+            <% end %>
+        </ul>
+    </div>
 
     <p>
         <%= f.label :hours, 'Hours' %>

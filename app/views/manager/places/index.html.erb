@@ -21,7 +21,7 @@
             <td><%= place.id %></td>
             <td><%= place.place_type %></td>
             <td><%= place.name %></td>
-            <td><%= place.city %></td>
+            <td><%= place.city.name if place.city %></td>
             <td><%= link_to 'Show', manager_place_path(place) %></td>
             <td><%= link_to 'Edit', edit_manager_place_path(place) %></td>
             <td>

@@ -2,16 +2,20 @@ Rails.application.routes.draw do
   root 'main#root'
 
   namespace :manager do
+    root 'main#dashboard'
     resources :places do
       resources :reviews
       resources :areas
     end
+    resources :cities
   end
 
   namespace :api do
     get '/' => 'main#root'
 
     post 'auth' => 'authorization#auth'
+
+    get 'cities' => 'cities#index'
 
     get 'places' => 'places#index'
 
