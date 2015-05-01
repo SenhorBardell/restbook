@@ -1,5 +1,6 @@
 class Api::PlacesController < ApplicationController
   def index
+    unless params.has_key? :city; params[:city] = 1 end
     if params.has_key? :flags
       render json: Place.where('flags @> ARRAY[?]::varchar[]', params[:flags]).where(city_id: params[:city])
                        .pag(@offset, @limit)
