@@ -35,7 +35,7 @@ class Api::AuthorizationController < ApplicationController
       # If not found create sms code temp entry
       if @code.blank?
         # Send the code
-        if params[:phone] == 9528853628
+        if params[:phone].to_s == 9528853628.to_s
           @code = @device.codes.create(token: params[:token], code: 1234, created_at: Time.now)
         else
           code = SecureRandom.hex 3
@@ -51,7 +51,7 @@ class Api::AuthorizationController < ApplicationController
         if @code.created_at + 120.seconds > Time.now
           return render json: {status: 1002, timeout: @code.created_at + 120.seconds - Time.now}
         else
-          if params[:phone] == 9528853628
+          if params[:phone].to_s == 9528853628.to_s
             @code = @device.codes.create(token: params[:token], code: 1234, created_at: Time.now)
           else
             code = SecureRandom.hex 3
