@@ -77,7 +77,7 @@ class Manager::PlacesController < ApplicationController
 
   def place_params
     params.require(:place).permit(
-        :name, :place_type, :desc, :city, :street,
+        :name, :place_type, :desc, :city_id, :street,
         :building, :long, :lat, :hours, :flags
     )
   end
