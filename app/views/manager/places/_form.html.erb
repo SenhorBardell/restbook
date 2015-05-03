@@ -57,7 +57,7 @@
     <div>
         <%= f.label :flags, 'Flags' %> <a href="#" id="add-flag">+</a>
 
-        <ul>
+        <ul id="flags">
             <% if @place.flags %>
                 <% @place.flags.each do |flag| %>
                     <li><%= f.text_field :flags, multiple: true, value: flag %><a href="#" class="delete-flag">x</a></li>
@@ -99,3 +99,13 @@
         <%= link_to 'Back', manager_places_path %>
     </p>
 <% end %>
+
+<script>
+    $('#add-flag').click(function() {
+        $('#flags').append('<li><input multiple="multiple" type="text" name="place[flags][]" id="place_flags"> <a href="#" class="delete-flag">x</a></li>');
+    });
+
+    $('#flags').on('click', '.delete-flag', function() {
+        $(this).parent().remove();
+    });
+</script>
