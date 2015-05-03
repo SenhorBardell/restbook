@@ -18,7 +18,8 @@
     <dd><%= @place.desc %></dd>
 
     <dt>Адрес</dt>
-    <dd><%= "#{@place.city} #{@place.street} #{@place.building}" %></dd>
+    <% city = @place.city ? @place.city.name : nil %>
+    <dd><%= "#{city} #{@place.street} #{@place.building}" %></dd>
 
     <dt>Гео</dt>
     <dd><%= "#{@place.long} #{@place.lat}" %></dd>
