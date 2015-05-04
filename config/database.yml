@@ -23,7 +23,7 @@ test:
 
 production:
   adapter: postgresql
-  database: ebdb
+  database: ENV['DB_DATABASE']
   encoding: unicode
   host: ENV['DB_HOST']
   username: ENV['DB_USER']
