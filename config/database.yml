@@ -23,8 +23,9 @@ test:
 
 production:
   adapter: postgresql
-  database: ENV['DB_DATABASE']
+  database: ebdb
   encoding: unicode
-  host: ENV['DB_HOST']
-  username: ENV['DB_USER']
-  password: ENV['DB_PASSWORD']
+  host: aajg1iaxjwwch0.cx7rrum7ghs7.eu-west-1.rds.amazonaws.com
+  username: restbook
+  password: restbook
+
