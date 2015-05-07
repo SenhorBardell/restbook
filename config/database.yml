@@ -29,3 +29,10 @@ production:
   username: restbook
   password: restbook
 
+heroku:
+  adapted: postgresql
+  encoding: unicode
+  database: d9kdftbket0ubo
+  host: ec2-54-247-79-142.eu-west-1.compute.amazonaws.com
+  username: yspjpyjzkxzyip
+  password: SV7J8-cpjUHeS5DZlp7gRe0yc6
