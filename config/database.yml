@@ -30,7 +30,7 @@ production:
   password: restbook
 
 heroku:
-  adapted: postgresql
+  adapter: postgresql
   encoding: unicode
   database: d9kdftbket0ubo
   host: ec2-54-247-79-142.eu-west-1.compute.amazonaws.com
