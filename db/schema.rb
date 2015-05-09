@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150501203533) do
+ActiveRecord::Schema.define(version: 20150509193611) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,6 +152,13 @@ ActiveRecord::Schema.define(version: 20150501203533) do
   end
 
   add_index "rpush_notifications", ["delivered", "failed"], name: "index_rpush_notifications_multi", where: "((NOT delivered) AND (NOT failed))", using: :btree
+
+  create_table "sms", force: :cascade do |t|
+    t.string  "price"
+    t.integer "message_id"
+    t.string  "number",     limit: 11
+    t.string  "status"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name"

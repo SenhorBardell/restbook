@@ -69,7 +69,13 @@ class Api::AuthorizationController < ApplicationController
 
   private
   def send_sms(phone, code)
-    @message = MainsmsApi::Message.new(sender: '7' + phone.to_s, message: "Код подтверждения #{code}", recipients: [@user.phone])
-    @message.deliver
+    @message = MainsmsApi::Message.new(message: "Код подтверждения #{code}", recipients: ['7' + phone.to_s])
+    response = @message.deliver
+    if response.status == 'success'
+      Sms.create(price: response.price, message_id: response.messages_id[0], number: response.recipients[0], status: response.status)
+      true
+    end
+
+    false
   end
 end
