@@ -39,7 +39,6 @@ class Api::AuthorizationController < ApplicationController
           @code = @device.codes.create(token: params[:token], code: 1234, created_at: Time.now)
         else
           code = SecureRandom.hex 3
-          pp send_sms(params[:phone], code)
           if send_sms params[:phone], code
             @code = @device.codes.create(token: params[:token], code: code, created_at: Time.now)
           end
