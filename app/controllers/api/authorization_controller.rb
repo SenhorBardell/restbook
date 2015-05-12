@@ -39,6 +39,7 @@ class Api::AuthorizationController < ApplicationController
           @code = @device.codes.create(token: params[:token], code: 1234, created_at: Time.now)
         else
           code = SecureRandom.hex 3
+          pp send_sms(params[:phone], code)
           if send_sms params[:phone], code
             @code = @device.codes.create(token: params[:token], code: code, created_at: Time.now)
           end
@@ -55,8 +56,9 @@ class Api::AuthorizationController < ApplicationController
             @code = @device.codes.create(token: params[:token], code: 1234, created_at: Time.now)
           else
             code = SecureRandom.hex 3
-            send_sms params[:phone], code
-            @code = @device.codes.create(token: params[:token], code: code, created_at: Time.now)
+            if send_sms params[:phone], code
+              @code = @device.codes.create(token: params[:token], code: code, created_at: Time.now)
+            end
           end
         end
 
@@ -68,13 +70,13 @@ class Api::AuthorizationController < ApplicationController
 
   private
   def send_sms(phone, code)
-    @message = MainsmsApi::Message.new(message: "Код подтверждения #{code}", recipients: ['7' + phone.to_s])
+    @message = MainsmsApi::Message.new(message: "Код подтверждения #{code}", recipients: ['7' + phone.to_s], test: 1)
     response = @message.deliver
     if response.status == 'success'
       Sms.create(price: response.price, message_id: response.messages_id[0], number: response.recipients[0], status: response.status)
       true
+    else
+      false
     end
-
-    false
   end
 end
