@@ -1,5 +1,5 @@
 class MainController < ApplicationController
   def root
-    render text: "<h1>Hello World!</h1>"
+    render 'manager/main/experimental'
   end
 end

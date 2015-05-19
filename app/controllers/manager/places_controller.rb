@@ -15,7 +15,7 @@ class Manager::PlacesController < ApplicationController
 
     @place = Place.new(place_params)
 
-    if params.has_key?(:img)
+    if params[:place][:img]
 
       image_key = SecureRandom.uuid
       image = s3.put_object(
@@ -27,7 +27,7 @@ class Manager::PlacesController < ApplicationController
       @place.img = image_key + ext(params[:place][:img])
     end
 
-    if params.has_key?(:logo)
+    if params[:place][:logo]
 
       logo_key = SecureRandom.uuid
       logo = s3.put_object(
@@ -58,6 +58,30 @@ class Manager::PlacesController < ApplicationController
 
   def update
     @place = Place.find(params[:id])
+
+    if params[:place][:img]
+
+      image_key = SecureRandom.uuid
+      image = s3.put_object(
+          body: params[:place][:img],
+          key: 'img/' + image_key  + ext(params[:place][:img]),
+          bucket: ENV['S3_BUCKET']
+      )
+
+      @place.img = image_key + ext(params[:place][:img])
+    end
+
+    if params[:place][:logo]
+
+      logo_key = SecureRandom.uuid
+      logo = s3.put_object(
+          body: params[:place][:logo],
+          key: 'img/' + logo_key + ext(params[:place][:logo]),
+          bucket: ENV['S3_BUCKET']
+      )
+      @place.logo = logo_key + ext(params[:place][:logo])
+
+    end
 
     if @place.update(place_params)
       redirect_to manager_place_url(@place)
