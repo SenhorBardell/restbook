@@ -59,6 +59,8 @@ class Manager::PlacesController < ApplicationController
   def update
     @place = Place.find(params[:id])
 
+    s3 = Aws::S3::Client.new
+
     if params[:place][:img]
 
       image_key = SecureRandom.uuid
