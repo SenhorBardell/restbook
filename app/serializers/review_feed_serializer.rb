@@ -9,7 +9,7 @@ class ReviewFeedSerializer < ActiveModel::Serializer
     {
         id: object.place.id,
         type: object.place.place_type,
-        logo: AMAZON_URL + object.place.logo,
+        logo: AMAZON_URL + object.place.logo.to_s,
         name: object.place.name
     }
   end
