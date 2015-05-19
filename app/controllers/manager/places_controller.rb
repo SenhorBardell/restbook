@@ -21,7 +21,8 @@ class Manager::PlacesController < ApplicationController
       image = s3.put_object(
         body: params[:place][:img],
         key: 'img/' + image_key  + ext(params[:place][:img]),
-        bucket: ENV['S3_BUCKET']
+        bucket: ENV['S3_BUCKET'],
+        acl: 'public-read'
       )
 
       @place.img = image_key + ext(params[:place][:img])
@@ -33,7 +34,8 @@ class Manager::PlacesController < ApplicationController
       logo = s3.put_object(
         body: params[:place][:logo],
         key: 'img/' + logo_key + ext(params[:place][:logo]),
-        bucket: ENV['S3_BUCKET']
+        bucket: ENV['S3_BUCKET'],
+        acl: 'public-read'
       )
       @place.logo = logo_key + ext(params[:place][:logo])
 
@@ -67,7 +69,8 @@ class Manager::PlacesController < ApplicationController
       image = s3.put_object(
           body: params[:place][:img],
           key: 'img/' + image_key  + ext(params[:place][:img]),
-          bucket: ENV['S3_BUCKET']
+          bucket: ENV['S3_BUCKET'],
+          acl: 'public-read'
       )
 
       @place.img = image_key + ext(params[:place][:img])
@@ -79,7 +82,8 @@ class Manager::PlacesController < ApplicationController
       logo = s3.put_object(
           body: params[:place][:logo],
           key: 'img/' + logo_key + ext(params[:place][:logo]),
-          bucket: ENV['S3_BUCKET']
+          bucket: ENV['S3_BUCKET'],
+          acl: 'public-read'
       )
       @place.logo = logo_key + ext(params[:place][:logo])
 
