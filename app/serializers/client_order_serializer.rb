@@ -10,7 +10,7 @@ class ClientOrderSerializer < ActiveModel::Serializer
         id: object.place.id,
         name: object.place.name,
         type: object.place.place_type,
-        logo: AMAZON_URL + object.place.logo
+        logo: AMAZON_URL + object.place.logo.to_s
     }
   end
 end
