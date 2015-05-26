@@ -23,7 +23,7 @@ class PlaceSerializer < ActiveModel::Serializer
   def phone
     {
         type: 'Администратор',
-        number: 79211040339
+        number: object.phone
     }
   end
 

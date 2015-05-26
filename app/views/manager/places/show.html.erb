@@ -21,6 +21,15 @@
     <% city = @place.city ? @place.city.name : nil %>
     <dd><%= "#{city} #{@place.street} #{@place.building}" %></dd>
 
+    <dt>Телефон</dt>
+    <dd><%= @place.phone %></dd>
+
+    <dt>Логин</dt>
+    <dd><%= @place.login %></dd>
+
+    <dt>Пароль</dt>
+    <dd><i>Пароль скрыт</i> | <a id="reset-pass" href="#">Новый пароль</a></dd>
+
     <dt>Гео</dt>
     <dd><%= "#{@place.long} #{@place.lat}" %></dd>
 
