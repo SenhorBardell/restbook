@@ -122,6 +122,9 @@
     });
 
     $('#flags').on('click', '.delete-flag', function() {
-        $(this).parent().remove();
+        if ($('.delete-flag').length == 1)
+            $(this).parent().find('input').val('');
+        else
+            $(this).parent().remove();
     });
 </script>
