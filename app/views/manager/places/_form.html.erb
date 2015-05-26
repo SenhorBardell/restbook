@@ -97,7 +97,7 @@
     <p>
         <%= f.label :hours, 'Hours' %>
         <% hours = '{"mon":["12:00","21:00"],"tue":["12:00","21:00"],"wed":["12:00","21:00"],"thu":["12:00","21:00"],"fri":["12:00","21:00"],"sat":["12:00","21:00"],"sun":["12:00","21:00"]}' %>
-        <%= f.text_field :hours, value: @place.hours ||= hours, style: 'width:900px' %>
+        <%= f.text_field :hours, value: @place.hours.to_json || hours, style: 'width:900px' %>
     </p>
 
     <h2>Geo</h2>
