@@ -1,3 +1,19 @@
+# module Rpush
+#   class Logger
+#     def info(msg, inline = false)
+#
+#     end
+#
+#     def error(msg, inline = false)
+#
+#     end
+#
+#     def warn(msg, inline = false)
+#
+#     end
+#   end
+# end
+
 Rpush.configure do |config|
 
   # Supported clients are :active_record, :redis and :mongoid
@@ -57,6 +73,7 @@ Rpush.reflect do |on|
   # Called when notification delivery failed.
   # Call 'error_code' and 'error_description' on the notification for the cause.
   # on.notification_failed do |notification|
+  #
   # end
 
   # Called when the notification delivery failed and only the notification ID
@@ -98,8 +115,14 @@ Rpush.reflect do |on|
 
   # Called when the GCM returns a failure that indicates an invalid registration id.
   # You will need to delete the registration_id from your records.
-  # on.gcm_invalid_registration_id do |app, error, registration_id|
-  # end
+  on.gcm_invalid_registration_id do |app, error, registration_id|
+    device = Device.find_by(token: registration_id)
+
+    if device
+      device.token = ''
+      device.save
+    end
+  end
 
   # Called when an SSL certificate will expire within 1 month.
   # Implement on.error to catch errors raised when the certificate expires.
