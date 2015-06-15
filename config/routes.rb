@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
     post 'auth' => 'authorization#auth'
 
+    post 'push' => 'authorization#associate_push_token'
+
     get 'cities' => 'cities#index'
 
     get 'places' => 'places#index'
@@ -37,6 +39,8 @@ Rails.application.routes.draw do
   namespace :admin do
 
     post 'auth' => 'authorization#attach'
+
+    # associate push token
 
     get 'orders' => 'orders#index'
 

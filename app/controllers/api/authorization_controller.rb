@@ -1,5 +1,7 @@
 class Api::AuthorizationController < ApplicationController
+  # include ActionController::HttpAuthentication::Token
   @time = 2
+  before_filter :authenticate, only: :associate_push_token
 
   def auth
     if params[:code]
@@ -67,6 +69,14 @@ class Api::AuthorizationController < ApplicationController
     end
   end
 
+  def associate_push_token
+    @device = @user.devices.find_by(auth: bearer_token)
+    if @device && params[:token]
+      @device.update(token: params[:token])
+    end
+    return render nothing: true, status: 204
+  end
+
   private
   def send_sms(phone, code)
     # TODO if env is production set test: 1
@@ -78,5 +88,11 @@ class Api::AuthorizationController < ApplicationController
     else
       false
     end
+  end
+
+  def bearer_token
+    pattern = /^Token token=/
+    header  = request.authorization
+    header.gsub(pattern, '') if header && header.match(pattern)
   end
 end
